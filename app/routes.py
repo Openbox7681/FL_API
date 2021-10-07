@@ -1,7 +1,6 @@
 import logging.config
 from app import api
-from app.controller.LoginController import Login, Users
-from app.controller.RoleController import QueryRole, QueryRoleById
+from app.controller.LoginController import uploadMalware
 
 
 logging.config.dictConfig(
@@ -58,21 +57,22 @@ logging.config.dictConfig(
 
 
 #登入相關
-api.add_resource(Login, '/account/user/login', resource_class_kwargs={
-    'logger': logging.getLogger('/account/user/ogin')
-})
+# api.add_resource(Login, '/account/user/login', resource_class_kwargs={
+#     'logger': logging.getLogger('/account/user/ogin')
+# })
 
-api.add_resource(Users, '/users', resource_class_kwargs={
-    'logger': logging.getLogger('/users')
+
+api.add_resource(uploadMalware, '/uploadMalware', resource_class_kwargs={
+    'logger': logging.getLogger('/uploadMalware')
 })
 
 #角色相關
-api.add_resource(QueryRole, '/roles/query', resource_class_kwargs={
-    'logger': logging.getLogger('/roles')
-})
+# api.add_resource(QueryRole, '/roles/query', resource_class_kwargs={
+#     'logger': logging.getLogger('/roles')
+# })
 
-api.add_resource(QueryRoleById, '/roles/query/id', resource_class_kwargs={
-    'logger': logging.getLogger('/roles/query/id')
-})
+# api.add_resource(QueryRoleById, '/roles/query/id', resource_class_kwargs={
+#     'logger': logging.getLogger('/roles/query/id')
+# })
 
 
