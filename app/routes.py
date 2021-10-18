@@ -1,6 +1,6 @@
 import logging.config
 from app import api
-from app.controller.LoginController import uploadMalware
+from app.controller.UploadMalwareController import uploadMalware
 
 
 logging.config.dictConfig(
@@ -61,6 +61,7 @@ logging.config.dictConfig(
 #     'logger': logging.getLogger('/account/user/ogin')
 # })
 
+#病毒檔案上傳相關
 
 api.add_resource(uploadMalware, '/uploadMalware', resource_class_kwargs={
     'logger': logging.getLogger('/uploadMalware')

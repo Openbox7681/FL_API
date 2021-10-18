@@ -3,7 +3,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 
 # 要加密的資料（必須為 bytes）
-data = b'My secret data.'
+data = b'123'
 
 # 讀取 RSA 公鑰
 publicKey = RSA.import_key(open("public.pem").read())
