@@ -1,6 +1,8 @@
 import logging.config
 from app import api
 from app.controller.UploadMalwareController import uploadMalware
+from app.controller.ExampleController import example
+
 
 
 logging.config.dictConfig(
@@ -66,6 +68,13 @@ logging.config.dictConfig(
 api.add_resource(uploadMalware, '/uploadMalware', resource_class_kwargs={
     'logger': logging.getLogger('/uploadMalware')
 })
+
+#測試API
+
+api.add_resource(example, '/example', resource_class_kwargs={
+    'logger': logging.getLogger('/example')
+})
+
 
 #角色相關
 # api.add_resource(QueryRole, '/roles/query', resource_class_kwargs={
