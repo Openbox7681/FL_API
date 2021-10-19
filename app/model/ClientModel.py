@@ -2,12 +2,12 @@ from app import db
 from flask_bcrypt import Bcrypt
 
 
-#全部表單名稱
+#Client模型名稱
 class ClientModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    cleintId = db.Column(db.Integer)
+    clientId = db.Column(db.String(45))
     clientIp = db.Column(db.String(45))
-    filePath = db.Column(db.String(45))
+    filePath = db.Column(db.String(128))
     fileName = db.Column(db.String(45))
 
     createTime = db.Column(db.DateTime , nullable=False)
@@ -16,27 +16,44 @@ class ClientModel(db.Model):
 
 
 
-
-    code = db.Column(db.String(45), nullable=False)
-    name = db.Column(db.String(45), nullable=False)
-    isEnable = db.Column(db.Boolean, nullable=False)
-    createId = db.Column(db.Integer, nullable=False)
-    createTime = db.Column(db.DateTime , nullable=False)
-    modifyId = db.Column(db.Integer, nullable=False)
-    modifyTime = db.Column(db.DateTime , nullable=False)
-
-    #一對多 一
-    #通過 relationship 與 role form 綁定資料
-    db_form_roleForm = db.relationship("RoleForm", backref="form")
-
-
-
-
-    def __init__(self, code, name, isEnable, createId , createTime , modifyId , modifyTime):
-        self.code = code
-        self.name = name
-        self.isEnable = isEnable
-        self.createId = createId
+    def __init__(self, clientId, clientIp, filePath, fileName , createTime):
+        self.clientId = clientId
+        self.clientIp = clientIp
+        self.filePath = filePath
+        self.fileName = fileName
         self.createTime = createTime
-        self.modifyId = modifyId
-        self.modifyTime = modifyTime
+        
+
+    #利用id 取得 ClientModel資料
+    @staticmethod
+    def get_clientModel(id):
+        return ClientModel.query.filter(ClientModel.id == id).first()
+    
+    #取得所有模型
+    @staticmethod
+    def get_all_clientModels():
+        return ClientModel.query.all()
+
+     #新增模型
+    @staticmethod
+    def insert_clientModel(clientModel):
+        db.session.add(clientModel)
+        db.session.commit()
+        return clientModel 
+    
+    #模型更新
+    @staticmethod
+    def update_clientModel(clientModel):
+        db.session.merge(clientModel)
+        db.session.commit()
+        return clientModel
+
+    #利用clientIp 取得多筆ClientModel資料
+    @staticmethod
+    def get_clientModel(clientIp):
+        return ClientModel.query.filter(ClientModel.clientIp == clientIp).all()
+    
+    #利用ClientId 取得多筆ClientModel資料
+    @staticmethod
+    def get_clientModel(clientId):
+        return ClientModel.query.filter(ClientModel.clientId == clientId).all()

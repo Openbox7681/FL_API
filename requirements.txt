@@ -6,3 +6,4 @@ flask_cors
 pymysql
 PyCryptodome
 Werkzeug
+flask_bcrypt
