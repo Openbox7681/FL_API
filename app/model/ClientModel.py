@@ -41,6 +41,12 @@ class ClientModel(db.Model):
         db.session.commit()
         return clientModel 
     
+     #刪除角色
+    @staticmethod
+    def delete_role(clientModel):
+        db.session.delete(clientModel)
+        db.session.commit()
+    
     #模型更新
     @staticmethod
     def update_clientModel(clientModel):
