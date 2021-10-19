@@ -20,12 +20,7 @@ class ClientModel(db.Model):
     clientIp = db.Column(db.String(45))
     filePath = db.Column(db.String(128))
     fileName = db.Column(db.String(45))
-
     createTime = db.Column(db.DateTime , nullable=False)
-
-
-
-
 
     def __init__(self, clientId, clientIp, filePath, fileName , createTime):
         self.clientId = clientId
@@ -37,21 +32,7 @@ class ClientModel(db.Model):
 
 
 
-
-
-
-
-
-
 db.create_all()
-
-
-
-
-
-
-
-
 
 
 
