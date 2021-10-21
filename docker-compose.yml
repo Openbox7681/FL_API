@@ -2,12 +2,13 @@ version: '3'
 services:
   flask:
      build: .
+     user: root
      image: fl_server_api:v1
      ports:
        - "5000:5000"
      volumes:
-       - "./app:/usr/local/FL_API/app/"
-       - "./scripts:/usr/local/FL_API/scripts/"
+       - "./app:/home/jovyan/FL_API/app/"
+       - "./scripts:/home/jovyan/FL_API/scripts/"
       #  - "./errors.log:/usr/local/FL_API/errors.log"
       #  - "./info.log:/usr/local/FL_API/info.log"
       #  - "./debug.log:/usr/local/FL_API/debug.log"

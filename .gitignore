@@ -125,5 +125,8 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+#Upload model
+app/controller/uploads/
+
 # Pyre type checker
 .pyre/

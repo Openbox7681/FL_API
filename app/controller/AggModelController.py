@@ -5,13 +5,13 @@ from flask_jwt_extended import create_access_token, jwt_required ,get_jwt_identi
 # from app.model.Role import Role
 import werkzeug
 from app import jwt
-import os
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
-import os
+import os, pickle
 import zipfile
 from app.model.ClientModel import ClientModel
 from datetime import datetime
+from sklearn.ensemble import VotingClassifier
 
 
 @jwt.expired_token_loader
@@ -53,18 +53,35 @@ class AggModel(Resource):
         
         clientModelList = list()
 
+        model_list = list()
+
         #利用ID取得所有Client ID得資料
         for clientId in clientIdList:
             clientModels = ClientModel.get_clientModel_by_client_id(clientId)
-            for clientModel in clientModels:
-                clientModelJson = dict()
-                clientModelJson = {
-                    "ClientId" : clientModel.clientId,
-                    "ClientIp" : clientModel.clientIp,
-                    "FilePath" : clientModel.filePath,
-                    "FileName" : clientModel.fileName
-                }
-                clientModelList.append(clientModelJson)
+            if clientModels is not None :
+                for clientModel in clientModels:
+                    clientModelJson = dict()
+                    FilePath = clientModel.filePath
+                    FileName = clientModel.fileName
+                    m_path = FilePath + "/" +FileName
+                    m = pickle.load(open(m_path, "rb"))
+                    clientModelJson = {
+                        "ClientId" : clientModel.clientId,
+                        "ClientIp" : clientModel.clientIp,
+                        "FilePath" : clientModel.filePath,
+                        "FileName" : clientModel.fileName,
+                        "m_path" : m_path
+                    }
+                    model_list.append(m)
+                    clientModelList.append(clientModelJson)
+        estimators_list = list()
+        for item in model_list:
+            tuple_model = ('xgb' , item)
+            estimators_list.append(tuple_model)
+        eclf = VotingClassifier(estimators=estimators_list, voting='soft')
+
+
+
 
         status = 200
         message = "上傳成功"

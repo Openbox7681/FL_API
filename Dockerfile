@@ -1,5 +1,4 @@
-FROM python:3
-
+FROM jupyter/datascience-notebook
 #設定環境變數,包括ES設定與排程等等
 ENV LANG=C.UTF-8 \
   DEBIAN_FRONTEND=noninteractive\
@@ -10,29 +9,28 @@ ENV LANG=C.UTF-8 \
   FLOWSCAN_SCHED_PERIOD=1
 
   # runtime dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		ca-certificates \
-		netbase \
-    vim\
-		apt-utils \
-        nmap \
-        wireshark\
-        tshark
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     python3-scipy\
+#     ca-certificates \
+#     netbase \
+#     vim\
+#     apt-utils \
+#     python3-sklearn python3-sklearn-lib python3-sklearn-doc
 
-RUN apt-get -y install python3-pip \
-	&& mkdir /usr/local/FL_API/
+RUN mkdir /home/jovyan/FL_API/
 
-WORKDIR /usr/local/FL_API/
+WORKDIR /home/jovyan/FL_API/
 
 
 # Install the python packages
 # requirement建議可以給版本號碼
 # 將python套件掛載進去container
-COPY requirements.txt /usr/local/FL_API/
+COPY requirements.txt /home/jovyan/FL_API/
+RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-COPY . /usr/local/FL_API/
-RUN chmod +x /usr/local/FL_API/manage.py
+COPY . /home/jovyan/FL_API/
+RUN /bin/bash -c 'ls -la; chmod -R 777 /home/jovyan/FL_API/;  ls -la'
 
 CMD ["python3", "manage.py"]
 
