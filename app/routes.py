@@ -1,7 +1,9 @@
 import logging.config
 from app import api
-from app.controller.UploadMalwareController import uploadMalware
+from app.controller.UploadModelController import uploadModel
 from app.controller.ExampleController import example
+from app.controller.AggModelController import AggModel
+
 
 
 
@@ -58,15 +60,10 @@ logging.config.dictConfig(
 )
 
 
-#登入相關
-# api.add_resource(Login, '/account/user/login', resource_class_kwargs={
-#     'logger': logging.getLogger('/account/user/ogin')
-# })
+#模組檔案上傳相關
 
-#病毒檔案上傳相關
-
-api.add_resource(uploadMalware, '/uploadMalware', resource_class_kwargs={
-    'logger': logging.getLogger('/uploadMalware')
+api.add_resource(uploadModel, '/uploadModel', resource_class_kwargs={
+    'logger': logging.getLogger('/uploadModel')
 })
 
 #測試API
@@ -75,14 +72,11 @@ api.add_resource(example, '/example', resource_class_kwargs={
     'logger': logging.getLogger('/example')
 })
 
+#模組聚合API
 
-#角色相關
-# api.add_resource(QueryRole, '/roles/query', resource_class_kwargs={
-#     'logger': logging.getLogger('/roles')
-# })
+api.add_resource(AggModel, '/aggModel', resource_class_kwargs={
+    'logger': logging.getLogger('/aggModel')
+})
 
-# api.add_resource(QueryRoleById, '/roles/query/id', resource_class_kwargs={
-#     'logger': logging.getLogger('/roles/query/id')
-# })
 
 

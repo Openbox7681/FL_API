@@ -7,19 +7,18 @@ class ClientModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     clientId = db.Column(db.String(45))
     clientIp = db.Column(db.String(45))
+    clientPort = db.Column(db.String(45))
     filePath = db.Column(db.String(128))
     fileName = db.Column(db.String(45))
-
     createTime = db.Column(db.DateTime , nullable=False)
 
 
 
-
-
-    def __init__(self, clientId, clientIp, filePath, fileName , createTime):
+    def __init__(self, clientId, clientIp, clientPort ,filePath, fileName , createTime):
         self.clientId = clientId
         self.clientIp = clientIp
         self.filePath = filePath
+        self.clientPort = clientPort
         self.fileName = fileName
         self.createTime = createTime
         
@@ -56,10 +55,10 @@ class ClientModel(db.Model):
 
     #利用clientIp 取得多筆ClientModel資料
     @staticmethod
-    def get_clientModel(clientIp):
+    def get_clientModel_by_client_ip(clientIp):
         return ClientModel.query.filter(ClientModel.clientIp == clientIp).all()
     
     #利用ClientId 取得多筆ClientModel資料
     @staticmethod
-    def get_clientModel(clientId):
+    def get_clientModel_by_client_id(clientId):
         return ClientModel.query.filter(ClientModel.clientId == clientId).all()

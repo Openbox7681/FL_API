@@ -18,13 +18,17 @@ class ClientModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     clientId = db.Column(db.String(45))
     clientIp = db.Column(db.String(45))
+    clientPort = db.Column(db.String(45))
     filePath = db.Column(db.String(128))
     fileName = db.Column(db.String(45))
     createTime = db.Column(db.DateTime , nullable=False)
 
-    def __init__(self, clientId, clientIp, filePath, fileName , createTime):
+
+
+    def __init__(self, clientId, clientIp, clientPort ,filePath, fileName , createTime):
         self.clientId = clientId
         self.clientIp = clientIp
+        self.clientPort = clientPort
         self.filePath = filePath
         self.fileName = fileName
         self.createTime = createTime
