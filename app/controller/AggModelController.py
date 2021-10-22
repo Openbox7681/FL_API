@@ -12,6 +12,8 @@ import zipfile
 from app.model.ClientModel import ClientModel
 from datetime import datetime
 from sklearn.ensemble import VotingClassifier
+from app.config import Config
+
 
 
 @jwt.expired_token_loader
@@ -70,7 +72,8 @@ class AggModel(Resource):
                         "ClientIp" : clientModel.clientIp,
                         "FilePath" : clientModel.filePath,
                         "FileName" : clientModel.fileName,
-                        "m_path" : m_path
+                        "m_path" : m_path,
+                        "config" : Config.SQLALCHEMY_DATABASE_URI
                     }
                     model_list.append(m)
                     clientModelList.append(clientModelJson)
