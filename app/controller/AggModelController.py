@@ -152,7 +152,7 @@ class AggModel(Resource):
         for i in range(len(model_list)):
             tuple_model = ('xgb' + str(i) , model_list[i])
             estimators_list.append(tuple_model)
-        eclf = VotingClassifier(estimators=estimators_list, voting='hard')
+        eclf = VotingClassifier(estimators=estimators_list, voting='soft')
 
         estimator = eclf.fit(X_train,Y_train)
 
