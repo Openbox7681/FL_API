@@ -1,8 +1,6 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, jwt_required ,get_jwt_identity
-# from app.model.User import User
-# from app.model.Role import Role
 import werkzeug
 from app import jwt
 from Crypto.PublicKey import RSA
@@ -53,6 +51,42 @@ def create_new_folder(local_dir):
 		os.makedirs(newpath)
 	return newpath
 
+class QueryGlobalModel(Resource):
+    def __init__(self, **kwargs):
+            self.logger = kwargs.get('logger')
+    def post(self):
+        status = None 
+        message = None
+        data = None 
+        args = reqparse.RequestParser()\
+            .add_argument('globalModelId', type=str,location='json')\
+            .parse_args()
+        globalModelId = args.get('globalModelId')
+        globalModel = GlobalModel.get_globalModel_by_global_id(globalModelId)
+        if globalModel is not None :
+            status = 200
+            message = "成功"
+            globalModelJson = {
+                        "GlobalModelId" : globalModel.globalModelId,
+                        "FilePath" : globalModel.filePath,
+                        "FileName" : globalModel.fileName,
+                        "ClientIdList" : globalModel.clientIdList
+                        }
+        else:
+            status = 201
+            message = "查無此Id"
+            globalModelJson = None
+
+        data = globalModelJson
+
+        return jsonify({
+            "Status": status,
+            "Message": message,
+            "Data" : data
+        })
+
+
+
 class AggModel(Resource):
     def __init__(self, **kwargs):
             self.logger = kwargs.get('logger')
@@ -91,8 +125,8 @@ class AggModel(Resource):
                     }
                     clientModelList.append(clientModelJson)
 
-        malware_train = pd.read_csv(Config.TRAIN_DATA + "mal_train.csv", index_col=[0])
-        benign_train = pd.read_csv(Config.TRAIN_DATA + "cic_train.csv", index_col=[0])
+        malware_train = pd.read_csv(Config.TRAIN_DATA + "mal_server_train.csv", index_col=[0])
+        benign_train = pd.read_csv(Config.TRAIN_DATA + "benign_server_train.csv", index_col=[0])
         malware_train = malware_train[malware_train['class'] != 'T0836']
 
         print(malware_train)

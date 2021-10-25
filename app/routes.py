@@ -2,7 +2,7 @@ import logging.config
 from app import api
 from app.controller.UploadModelController import uploadModel
 from app.controller.ExampleController import example
-from app.controller.AggModelController import AggModel
+from app.controller.AggModelController import AggModel,QueryGlobalModel
 
 
 
@@ -77,6 +77,13 @@ api.add_resource(example, '/example', resource_class_kwargs={
 api.add_resource(AggModel, '/aggModel', resource_class_kwargs={
     'logger': logging.getLogger('/aggModel')
 })
+
+api.add_resource(QueryGlobalModel, '/queryGlobalModel', resource_class_kwargs={
+    'logger': logging.getLogger('/queryGlobalModel')
+})
+
+
+
 
 
 
