@@ -11,6 +11,8 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 import os
 import zipfile
 from app.model.ClientModel import ClientModel
+from app.model.GlobalModel import GlobalModel
+
 from datetime import datetime
 
 
@@ -25,7 +27,18 @@ def expired_token_callback():
 def zip_list(file_path,password,to_path):
     zf = zipfile.ZipFile(file_path, 'r')
     zf.extractall(pwd = password, path = to_path)
-    return zf.namelist()[1:]
+    if len(zf.namelist()) >1:
+        ziplist = zf.namelist()[1:]
+    else :
+        ziplist = zf.namelist()
+    return ziplist
+
+def zip_file(file_path,password,to_path):
+    with zipfile.ZipFile(to_path, 'w') as myzip:
+        myzip.write(file_path)
+        myzip.setpassword(password)
+
+
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 UPLOAD_FOLDER = '{}/uploads/'.format(PROJECT_HOME)
@@ -120,9 +133,9 @@ class uploadModel(Resource):
         status = 200
         message = "上傳成功"
         data = {
-            'file' : file_name,
-            'hash_code' : hash_code,
-            'clientId' : clientId ,
+            'File' : file_name,
+            'HashCode' : hash_code,
+            'ClientId' : clientId ,
             'Upload_Client_Path' : UPLOAD_CLIENT_FOLDER,
             "File_List" : file_list
         }

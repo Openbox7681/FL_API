@@ -19,3 +19,5 @@ class Config:
     JWT_CSRF_CHECK_FORM = True
     JWT_ACCESS_TOKEN_EXPIRES = os.environ.get('JWT_ACCESS_TOKEN_EXPIRES') or 3600
     PROPAGATE_EXCEPTIONS = True
+    # train data
+    TRAIN_DATA = '/home/jovyan/FL_API/traindata/'
