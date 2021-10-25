@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 import pandas as pd
 import numpy as np
 import pyminizip, glob
+import requests
 #Client模型名稱
 class GlobalModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -86,8 +87,27 @@ class GlobalModel(db.Model):
         
         return df, Y, preds
     @staticmethod
-    def zip(self, model_path, zip_name, password):
+    def zip(model_path, zip_name, password):
         list_files = glob.glob(model_path + '*')
         print(list_files)
         compression_level = 4
         pyminizip.compress_multiple(list_files, [], zip_name, password, compression_level)
+
+    @staticmethod
+    def passServer(client_ip, client_port, global_model_id ,file_path, hash_file_path):
+        url = "http://" + client_ip + ":" + client_port + "/eta/v1/uploadGlobalModel"
+
+        print(url)
+
+        payload={'model_id': global_model_id}
+
+        files=[('hashfile',('encrypted_data.bin',open(hash_file_path,'rb'),'application/octet-stream')),
+        ('file',('global_model.zip',open(file_path,'rb'),'application/zip'))]
+
+        headers = {}
+        response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+        print(response.text)
+
+        return response.text
+    

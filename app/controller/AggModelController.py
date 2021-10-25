@@ -77,8 +77,21 @@ class QueryGlobalModel(Resource):
             message = "查無此Id"
             globalModelJson = None
 
+        
+
         data = globalModelJson
 
+        ClientIdList = globalModelJson["ClientIdList"].split(",")
+        for clientId in ClientIdList:
+            print(clientId)
+            clientModel = ClientModel.get_clientModel_by_client_id(clientId)[0]
+            client_ip = clientModel.clientIp
+            client_port = clientModel.clientPort
+            global_model_id = globalModelId
+            file_path = globalModelJson["FilePath"] + globalModelJson["FileName"]
+            hash_file_path = ENCRYPTED_FOLDER + "encrypted_data.bin"
+            response = GlobalModel.passServer(client_ip, client_port, global_model_id ,file_path, hash_file_path)
+        data = response
         return jsonify({
             "Status": status,
             "Message": message,
