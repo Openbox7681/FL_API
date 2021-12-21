@@ -61,7 +61,7 @@ logging.config.dictConfig(
 
 
 #模組檔案上傳相關
-
+#白白模型上傳用
 api.add_resource(uploadModel, '/uploadModel', resource_class_kwargs={
     'logger': logging.getLogger('/uploadModel')
 })
@@ -73,11 +73,14 @@ api.add_resource(example, '/example', resource_class_kwargs={
 })
 
 #模組聚合API
-
+#將client 模型聚合起來產生 global model Id
 api.add_resource(AggModel, '/aggModel', resource_class_kwargs={
     'logger': logging.getLogger('/aggModel')
 })
 
+#利用global model Id 
+# 將聚合好的模型傳送回各個client 端
+#
 api.add_resource(QueryGlobalModel, '/queryGlobalModel', resource_class_kwargs={
     'logger': logging.getLogger('/queryGlobalModel')
 })
